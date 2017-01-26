@@ -1,0 +1,32 @@
+cmake_minimum_required( VERSION 2.8 )
+
+project( Lab_1_1 )
+
+# Compiler flags
+if (MSVC)
+  add_compile_options( /W4 )
+else ()
+  include(CheckCXXCompilerFlag)
+  CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+  if(COMPILER_SUPPORTS_CXX11)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+  else()
+    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support.")
+  endif()
+  add_compile_options( -Wall -pedantic -Wextra -Wno-unknown-pragmas -Wno-unused-local-typedefs)
+endif (MSVC)
+
+# Add libraries.
+find_package(OpenCV 3 REQUIRED)
+find_package(Eigen3 REQUIRED)
+
+include_directories(
+        "${EIGEN3_INCLUDE_DIR}"
+)
+
+add_executable( Lab_1_1
+  main.cpp)
+
+target_link_libraries( Lab_1_1
+  ${OpenCV_LIBS}
+)
